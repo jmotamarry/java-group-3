@@ -22,11 +22,11 @@
  * @return void   displays an image of a triangle to the user in the console/terminal/output area. 
  * 
  * Recursive method 'makeSierpinski' edits the static variable 'triangle' to make a Sierpinski's triangle, using recursion.
- * @param depth         an int that determines the interations of the Sierpinski's triangle.
+ * @param depth         an int that determines the iterations of the Sierpinski's triangle.
  * @param sideLength    an int that determines the length of the inner triangles.
  * @param botLeftRow    an int that determines the start row of drawing the recursive, inner triangles.
  * @param botLeftCol    an int that determines the start column of drawing the recursive, inner triangles.
- * @return boolen       the method returns a boolean to determine when the Sierpinski triangle is finished.
+ * @return boolean       the method returns a boolean to determine when the Sierpinski triangle is finished.
  * */
 
 
@@ -100,6 +100,6 @@ public class Sierpinski {
         makeSierpinski(0, triangle.length, triangle.length, 0);
         printTriangle();
 
-        sc.close(); //@Jay I closed the scanner lol 
+        sc.close(); 
     }
 }
