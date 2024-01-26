@@ -1,6 +1,14 @@
+import java.util.*;
+
 public class Sierpinski {
+
+    private static int triangleSize;
+    private static int triangleDepth;
     public static void main(String[] args) {
-        System.out.println("************\n**********\n******\n***\n*");
-        System.out.println("change");
+        Scanner scan = new Scanner(System.in);
+
+        triangleSize = Integer.parseInt(scan.nextLine());
+        triangleDepth = Integer.parseInt(scan.nextLine());
+
     }
 }
