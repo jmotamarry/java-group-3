@@ -1,12 +1,12 @@
 /**
- * The objective of our program is to draw a Sierpinski's Triangle with a predetermined depth but customizable length, using recursion. 
+ * The objective of our program is to draw a Sierpinski's Triangle with a customizable depth and length, using recursion. 
  * @author Jay Motamarry 
  * @author Vanshika Sharma
  * @since  Jan 30th, 2024
  * 
  * Static variables used: 
  * char[][] triangle - to draw the triangle 
- * int depth - to determine the number of iterations of the recursive method.
+ * int endDepth - to determine the number of iterations of the recursive method, the value is inputted from the user.
  * 
  * Helper Method 'drawHorizontalLine' takes in three ints as its parameters to draw a horizontal line
  * @param row    an int that gives the value of the row of the triangle where a horizontal line should be drawn.
@@ -26,7 +26,7 @@
  * @param sideLength    an int that determines the length of the inner triangles.
  * @param botLeftRow    an int that determines the start row of drawing the recursive, inner triangles.
  * @param botLeftCol    an int that determines the start column of drawing the recursive, inner triangles.
- * @return boolean       the method returns a boolean to determine when the Sierpinski triangle is finished.
+ * @return boolean      the method returns a boolean to determine when the Sierpinski triangle is finished.
  * */
 
 
