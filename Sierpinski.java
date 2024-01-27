@@ -36,7 +36,7 @@ import java.util.Scanner;
 public class Sierpinski {
     
     private static char[][] triangle;
-    private static int endDepth = 3;
+    private static int endDepth;
 
     public static void drawHorizontalLine(int row, int col, int length) {
         for (int i = 0; i < length; i+=2) {
