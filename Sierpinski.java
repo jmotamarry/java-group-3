@@ -36,7 +36,7 @@ import java.util.Scanner;
 public class Sierpinski {
     
     private static char[][] triangle;
-    private static final int DEPTH = 3;
+    private static int endDepth = 3;
 
     public static void drawHorizontalLine(int row, int col, int length) {
         for (int i = 0; i < length; i+=2) {
@@ -47,7 +47,7 @@ public class Sierpinski {
     public static void makeTriangle(Scanner sc) {
         int side;
 
-        System.out.print("Input a side length for the triangle (should be even): ");
+        System.out.print("Input a side length for the triangle (should be a power of 2): ");
         side = Integer.parseInt(sc.nextLine());
 
         triangle = new char[side][side * 2 - 1];
@@ -85,7 +85,7 @@ public class Sierpinski {
 
         drawHorizontalLine(botLeftRow - sideLength, botLeftCol + sideLength, sideLength * 2);
 
-        if (depth == DEPTH) {
+        if (depth == endDepth) {
             return true;
         }
 
@@ -97,9 +97,10 @@ public class Sierpinski {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         makeTriangle(sc);
-        makeSierpinski(0, triangle.length, triangle.length, 0);
+        System.out.print("How many layers deep do you want the triangle to be: ");
+        endDepth = Integer.parseInt(sc.nextLine());
+        makeSierpinski(1, triangle.length, triangle.length, 0);
         printTriangle();
-
         sc.close(); 
     }
 }
