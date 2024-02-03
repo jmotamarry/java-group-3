@@ -3,12 +3,31 @@ import java.util.*;
 public class SearchAlgorithm{
 	public static void main (String[] args)
 	{
-		int[] arr = {0,1,2,3,4,5,6,7};
-		System.out.println(binarySearch(arr,2));
-		
+		int[] arr;
+
+		for (int i = 1; i <= 30000000; i += 100000) {
+			arr = generateArray(i);
+			double startTime = System.nanoTime();
+			//linearSearch(arr, -1);
+			binarySearch(arr, -1);
+			//binarySearchR(arr, -1, 0, arr.length);
+			double endTime = System.nanoTime();
+			double totalTime = endTime - startTime;
+			System.out.print("(" + i + "," + totalTime + "),");
+		}
 	}
 
-    //linear search 
+	public static int[] generateArray(int n) {
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) {
+			// arr[i] = (int) (100000000 * Math.random());
+			arr[i] = i;
+		}
+		// Arrays.sort(arr);
+		return arr;
+	}
+
+    // linear search 
 	public static int linearSearch(int[] arr, int target)
 	{
 		for(int i = 0; i < arr.length; i++)
@@ -23,8 +42,8 @@ public class SearchAlgorithm{
 	}
 	
 	
-	//recursive way 
-	public static int binarySearch1(int[] arr, int target, int low, int high)
+	// recursive binary search
+	public static int binarySearchR(int[] arr, int target, int low, int high)
 	{
 		
 		int mid = (low + high)/2;
@@ -36,15 +55,15 @@ public class SearchAlgorithm{
 			return mid;	
 		}
 		else if(arr[mid] < target){
-			 return binarySearch1(arr, target, mid+1, high);
+			 return binarySearchR(arr, target, mid+1, high);
 		}
 		else {
-			 return binarySearch1(arr, target, low, mid-1);
+			 return binarySearchR(arr, target, low, mid-1);
 		}
 		
 	}
 	
-    //binary search 
+    // binary search 
 	public static int binarySearch(int [] numbers, int target) {
 		   int mid = 0;
 		   int low = 0;
