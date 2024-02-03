@@ -8,9 +8,9 @@ public class SearchAlgorithm{
 		for (int i = 1; i <= 30000000; i += 100000) {
 			arr = generateArray(i);
 			double startTime = System.nanoTime();
-			//linearSearch(arr, -1);
+			// linearSearch(arr, -1);
 			binarySearch(arr, -1);
-			//binarySearchR(arr, -1, 0, arr.length);
+			// binarySearchR(arr, -1, 0, arr.length);
 			double endTime = System.nanoTime();
 			double totalTime = endTime - startTime;
 			System.out.print("(" + i + "," + totalTime + "),");
