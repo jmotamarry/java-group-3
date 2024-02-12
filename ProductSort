@@ -1,0 +1,136 @@
+import java.util.Arrays;
+
+public class Product 
+{
+	private int productID;
+	private String productName;
+	private double productRating;
+	private double price;
+	
+	public Product(int id, String name, double rating, double price)
+	{
+		this.productID = id;
+		this.productName = name;
+		this.productRating = rating;
+		this.price = price;
+	}
+	
+	public String getName()
+	{
+		return productName; 
+	}
+	
+	public int getID()
+	{
+		return this.productID;
+	}
+	
+	public double getRating()
+	{
+		return productRating; 
+	}
+	
+	public double getPrice()
+	{
+		return price; 
+	}
+	
+	// merge sort
+	
+	//why does it work for rating but not price? 
+	//if i used numeric comparison, how do i make it more efficient? 
+	
+	public static void sort(Product[] productList, String sortType, String order)
+	{
+		if(productList.length > 1)
+		{
+			Product[] left = new Product[productList.length/2];
+			Product[] right = new Product[productList.length/2];
+			
+			left = Arrays.copyOfRange(productList, 0, productList.length/2);
+			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
+			
+			sort(left, sortType, order);
+			sort(right, sortType, order);
+			
+			int leftIndex = 0; 
+			int rightIndex = 0;
+			int index = 0;
+						
+			while (index < productList.length)
+			{
+				
+				if(leftIndex >= left.length)
+				{
+					productList[index] = right[rightIndex];
+					rightIndex++;
+					index++;
+				}
+				else if(rightIndex >= right.length)
+				{
+					productList[index] = left[leftIndex];
+					leftIndex++;
+					index++;
+				}
+				
+				else {
+					String leftSide = left[leftIndex].getName().toLowerCase();
+					String rightSide = right[rightIndex].getName().toLowerCase();
+
+					if(sortType.equals("price"))
+					{
+						leftSide = ""+left[leftIndex].getPrice();
+						rightSide = ""+right[rightIndex].getPrice();
+					}
+					else if(sortType.equals("rating"))
+					{
+						leftSide = ""+left[leftIndex].getRating();
+						rightSide = ""+right[rightIndex].getRating();
+					}
+					
+					
+					if(order.equals("ascending"))
+					{
+						if (leftSide.compareTo(rightSide) >= 0)
+						{
+							productList[index] = right[rightIndex];
+							rightIndex++;
+							index++;
+						}
+						else if (leftSide.compareTo(rightSide) <= 0)
+						{
+							productList[index] = left[leftIndex];
+							leftIndex++;
+							index++;
+						}
+					}
+					else 
+					{
+						if (leftSide.compareTo(rightSide) <= 0)
+						{
+							productList[index] = right[rightIndex];
+							rightIndex++;
+							index++;
+						}
+						else if (leftSide.compareTo(rightSide) >= 0)
+						{
+							productList[index] = left[leftIndex];
+							leftIndex++;
+							index++;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	
+	public String toString()
+	{
+		String output = this.productName + " " + this.productRating + " " + this.price;
+		return output;
+		
+	}
+
+}
