@@ -42,31 +42,34 @@ public class Product
 	
 	public static void sort(Product[] productList, String sortType, String order)
 	{
-		if(productList.length > 1)
+		//"sort" part of mergesort
+		if(productList.length > 1) //base case 
 		{
-			Product[] left = new Product[productList.length/2];
+			Product[] left = new Product[productList.length/2]; //divides the array into left half and right half
 			Product[] right = new Product[productList.length/2];
 			
 			left = Arrays.copyOfRange(productList, 0, productList.length/2);
 			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
 			
-			sort(left, sortType, order);
+			sort(left, sortType, order);  //recursive call 
 			sort(right, sortType, order);
 			
 			int leftIndex = 0; 
 			int rightIndex = 0;
 			int index = 0;
 						
-			while (index < productList.length)
+
+			//"merge" part of mergesort
+			while (index < productList.length) 
 			{
 				
-				if(leftIndex >= left.length)
+				if(leftIndex >= left.length) //basically if there's no more elements in the left half, start filling the array w the right half
 				{
 					productList[index] = right[rightIndex];
 					rightIndex++;
 					index++;
 				}
-				else if(rightIndex >= right.length)
+				else if(rightIndex >= right.length) // if there's no more elements in the right half, start filling the array w the left half
 				{
 					productList[index] = left[leftIndex];
 					leftIndex++;
@@ -74,45 +77,47 @@ public class Product
 				}
 				
 				else {
-					String leftSide = left[leftIndex].getName().toLowerCase();
+					String leftSide = left[leftIndex].getName().toLowerCase();     //i used the default case for the sortType to be "name."
 					String rightSide = right[rightIndex].getName().toLowerCase();
 
-					if(sortType.equals("price"))
+					if(sortType.equals("price")) //sortType = "price"
 					{
 						leftSide = ""+left[leftIndex].getPrice();
 						rightSide = ""+right[rightIndex].getPrice();
 					}
-					else if(sortType.equals("rating"))
+					else if(sortType.equals("rating")) //sortType = "rating"
 					{
 						leftSide = ""+left[leftIndex].getRating();
 						rightSide = ""+right[rightIndex].getRating();
 					}
 					
 					
-					if(order.equals("ascending"))
+					if(order.equals("ascending")) //increasing order
 					{
-						if (leftSide.compareTo(rightSide) >= 0)
+						if (leftSide.compareTo(rightSide) >= 0) //if the element on the left half is "greater" than the element on the right,
+																// the right element is used (since its ascending order)
 						{
 							productList[index] = right[rightIndex];
 							rightIndex++;
 							index++;
 						}
-						else if (leftSide.compareTo(rightSide) <= 0)
+						else if (leftSide.compareTo(rightSide) <= 0) //vice versa
 						{
 							productList[index] = left[leftIndex];
 							leftIndex++;
 							index++;
 						}
 					}
-					else 
+					else //decreasing order
 					{
-						if (leftSide.compareTo(rightSide) <= 0)
+						if (leftSide.compareTo(rightSide) <= 0) //if the element on the left half is "greater" than the element on the right,
+																// the left element is used (since its descending order)
 						{
 							productList[index] = right[rightIndex];
 							rightIndex++;
 							index++;
 						}
-						else if (leftSide.compareTo(rightSide) >= 0)
+						else if (leftSide.compareTo(rightSide) >= 0) //vice versa 
 						{
 							productList[index] = left[leftIndex];
 							leftIndex++;
