@@ -35,41 +35,47 @@ public class Product
 		return price; 
 	}
 	
+	
 	// merge sort
-	
-	//why does it work for rating but not price? 
-	//if i used numeric comparison, how do i make it more efficient? 
-	
 	public static void sort(Product[] productList, String sortType, String order)
 	{
-		//"sort" part of mergesort
-		if(productList.length > 1) //base case 
+		if(sortType.equals("name"))
 		{
-			Product[] left = new Product[productList.length/2]; //divides the array into left half and right half
+			sortString(productList, sortType, order);
+		}
+		else {
+			sortNotString(productList, sortType, order);
+		}
+	}
+	
+	//helper methods
+	public static void sortString(Product[] productList, String sortType, String order)
+	{
+		if(productList.length > 1)
+		{
+			Product[] left = new Product[productList.length/2];
 			Product[] right = new Product[productList.length/2];
 			
 			left = Arrays.copyOfRange(productList, 0, productList.length/2);
 			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
 			
-			sort(left, sortType, order);  //recursive call 
-			sort(right, sortType, order);
+			sortString(left, sortType, order);
+			sortString(right, sortType, order);
 			
 			int leftIndex = 0; 
 			int rightIndex = 0;
 			int index = 0;
 						
-
-			//"merge" part of mergesort
-			while (index < productList.length) 
+			while (index < productList.length)
 			{
 				
-				if(leftIndex >= left.length) //basically if there's no more elements in the left half, start filling the array w the right half
+				if(leftIndex >= left.length)
 				{
 					productList[index] = right[rightIndex];
 					rightIndex++;
 					index++;
 				}
-				else if(rightIndex >= right.length) // if there's no more elements in the right half, start filling the array w the left half
+				else if(rightIndex >= right.length)
 				{
 					productList[index] = left[leftIndex];
 					leftIndex++;
@@ -77,47 +83,114 @@ public class Product
 				}
 				
 				else {
-					String leftSide = left[leftIndex].getName().toLowerCase();     //i used the default case for the sortType to be "name."
+					String leftSide = left[leftIndex].getName().toLowerCase();
 					String rightSide = right[rightIndex].getName().toLowerCase();
-
-					if(sortType.equals("price")) //sortType = "price"
-					{
-						leftSide = ""+left[leftIndex].getPrice();
-						rightSide = ""+right[rightIndex].getPrice();
-					}
-					else if(sortType.equals("rating")) //sortType = "rating"
-					{
-						leftSide = ""+left[leftIndex].getRating();
-						rightSide = ""+right[rightIndex].getRating();
-					}
 					
-					
-					if(order.equals("ascending")) //increasing order
+					if(order.equals("ascending"))
 					{
-						if (leftSide.compareTo(rightSide) >= 0) //if the element on the left half is "greater" than the element on the right,
-																// the right element is used (since its ascending order)
+						if (leftSide.compareTo(rightSide) >= 0)
 						{
 							productList[index] = right[rightIndex];
 							rightIndex++;
 							index++;
 						}
-						else if (leftSide.compareTo(rightSide) <= 0) //vice versa
+						else if (leftSide.compareTo(rightSide) <= 0)
 						{
 							productList[index] = left[leftIndex];
 							leftIndex++;
 							index++;
 						}
 					}
-					else //decreasing order
+					else 
 					{
-						if (leftSide.compareTo(rightSide) <= 0) //if the element on the left half is "greater" than the element on the right,
-																// the left element is used (since its descending order)
+						if (leftSide.compareTo(rightSide) <= 0)
 						{
 							productList[index] = right[rightIndex];
 							rightIndex++;
 							index++;
 						}
-						else if (leftSide.compareTo(rightSide) >= 0) //vice versa 
+						else if (leftSide.compareTo(rightSide) >= 0)
+						{
+							productList[index] = left[leftIndex];
+							leftIndex++;
+							index++;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	
+	
+	public static void sortNotString(Product[] productList, String sortType, String order)
+	{
+		if(productList.length > 1)
+		{
+			Product[] left = new Product[productList.length/2];
+			Product[] right = new Product[productList.length/2];
+			
+			left = Arrays.copyOfRange(productList, 0, productList.length/2);
+			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
+			
+			sortNotString(left, sortType, order);
+			sortNotString(right, sortType, order);
+			
+			int leftIndex = 0; 
+			int rightIndex = 0;
+			int index = 0;
+						
+			while (index < productList.length)
+			{
+				
+				if(leftIndex >= left.length)
+				{
+					productList[index] = right[rightIndex];
+					rightIndex++;
+					index++;
+				}
+				else if(rightIndex >= right.length)
+				{
+					productList[index] = left[leftIndex];
+					leftIndex++;
+					index++;
+				}
+				
+				else {
+					double leftSide = left[leftIndex].getPrice();
+					double rightSide = right[rightIndex].getPrice();
+					
+					if(sortType.equals("rating"))
+					{
+						leftSide = left[leftIndex].getRating();
+						rightSide = right[rightIndex].getRating();
+					}
+					
+					if(order.equals("ascending"))
+					{
+						if (leftSide >= rightSide)
+						{
+							productList[index] = right[rightIndex];
+							rightIndex++;
+							index++;
+						}
+						else if (leftSide <= rightSide)
+						{
+							productList[index] = left[leftIndex];
+							leftIndex++;
+							index++;
+						}
+					}
+					else 
+					{
+						if (leftSide <= rightSide)
+						{
+							productList[index] = right[rightIndex];
+							rightIndex++;
+							index++;
+						}
+						else if (leftSide >= rightSide)
 						{
 							productList[index] = left[leftIndex];
 							leftIndex++;
@@ -133,7 +206,7 @@ public class Product
 	
 	public String toString()
 	{
-		String output = this.productName + " " + this.productRating + " " + this.price;
+		String output = this.productName + " " + this.productRating + " $" + this.price;
 		return output;
 		
 	}
