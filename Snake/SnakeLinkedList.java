@@ -1,4 +1,5 @@
 package Snake;
+import java.util.Scanner;
 
 public class SnakeLinkedList {
     private int left;
@@ -87,15 +88,50 @@ public class SnakeLinkedList {
         }
     }
 
+    public void move(String direction) {
+        SnakeNode currNode = head;
+
+        while (currNode.getNext() != null) {
+            currNode = currNode.getNext();
+        }
+
+        currNode.getPrev().setNext(null);
+
+        SnakeNode temp = null;
+
+        if (direction.toLowerCase().equals("right")) {
+            temp = new SnakeNode(head.getRow(), head.getCol() + 1);
+        } else if (direction.toLowerCase().equals("up")) {
+            temp = new SnakeNode(head.getRow() - 1, head.getCol());
+        } else if (direction.toLowerCase().equals("left")) {
+            temp = new SnakeNode(head.getRow(), head.getCol() - 1);
+        } else if (direction.toLowerCase().equals("down")) {
+            temp = new SnakeNode(head.getRow() + 1, head.getCol());
+        }
+        
+        head.setPrev(temp);
+        temp.setNext(head);
+        head = temp;
+    }
+
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = "";
+
         SnakeLinkedList snakeGame = new SnakeLinkedList(0, 40, 0, 20, null);
-        SnakeNode node = new SnakeNode((snakeGame.getBottom() - snakeGame.getTop()) / 2, (snakeGame.getRight() - snakeGame.getLeft()) / 2);
-        SnakeNode node2 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, (snakeGame.getRight() - snakeGame.getLeft()) / 2);
-        SnakeNode node3 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, ((snakeGame.getRight() - snakeGame.getLeft()) / 2) - 1);
+        SnakeNode node = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, ((snakeGame.getRight() - snakeGame.getLeft()) / 2) - 1);
+        SnakeNode node2 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, ((snakeGame.getRight() - snakeGame.getLeft()) / 2) - 2);
+        SnakeNode node3 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, ((snakeGame.getRight() - snakeGame.getLeft()) / 2) - 3);
+
         snakeGame.setHead(node);
         snakeGame.addAtEnd(node2);
         snakeGame.addAtEnd(node3);
-        snakeGame.printList();
-        snakeGame.printGame();
+        
+        while (!(input.equals("-1"))) {
+            System.out.println("Input a direction (left, right, up, or down): ");
+            input = sc.nextLine();
+            snakeGame.move(input);
+            snakeGame.printGame();
+        }
     }
 }
