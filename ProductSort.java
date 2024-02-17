@@ -1,13 +1,13 @@
 import java.util.Arrays;
 
-public class Product 
+public class ProductSort 
 {
 	private int productID;
 	private String productName;
 	private double productRating;
 	private double price;
 	
-	public Product(int id, String name, double rating, double price)
+	public ProductSort(int id, String name, double rating, double price)
 	{
 		this.productID = id;
 		this.productName = name;
@@ -37,7 +37,7 @@ public class Product
 	
 	
 	// merge sort
-	public static void sort(Product[] productList, String sortType, String order)
+	public static void sort(ProductSort[] productList, String sortType, String order)
 	{
 		if(sortType.equals("name"))
 		{
@@ -49,12 +49,12 @@ public class Product
 	}
 	
 	//helper methods
-	public static void sortString(Product[] productList, String sortType, String order)
+	public static void sortString(ProductSort[] productList, String sortType, String order)
 	{
 		if(productList.length > 1)
 		{
-			Product[] left = new Product[productList.length/2];
-			Product[] right = new Product[productList.length/2];
+			ProductSort[] left = new ProductSort[productList.length/2];
+			ProductSort[] right = new ProductSort[productList.length/2];
 			
 			left = Arrays.copyOfRange(productList, 0, productList.length/2);
 			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
@@ -124,12 +124,12 @@ public class Product
 	
 	
 	
-	public static void sortNotString(Product[] productList, String sortType, String order)
+	public static void sortNotString(ProductSort[] productList, String sortType, String order)
 	{
 		if(productList.length > 1)
 		{
-			Product[] left = new Product[productList.length/2];
-			Product[] right = new Product[productList.length/2];
+			ProductSort[] left = new ProductSort[productList.length/2];
+			ProductSort[] right = new ProductSort[productList.length/2];
 			
 			left = Arrays.copyOfRange(productList, 0, productList.length/2);
 			right = Arrays.copyOfRange(productList, productList.length/2, productList.length);
