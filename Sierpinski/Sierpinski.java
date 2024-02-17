@@ -1,3 +1,4 @@
+package Sierpinski;
 /**
 * The objective of our program is to draw a Sierpinski's Triangle with a customizable depth and length, using recursion.
 * @author Jay Motamarry
