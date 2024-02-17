@@ -42,7 +42,7 @@ public class SnakeLinkedList {
 
     public void addAtEnd(SnakeNode s) {
         SnakeNode curr = head;
-        while(curr.getNext() != null) {
+        while (curr.getNext() != null) {
             curr = curr.getNext();
         }
         curr.setNext(s);
@@ -51,19 +51,51 @@ public class SnakeLinkedList {
 
     public void printList() {
         SnakeNode curr = head;
-        while(curr.getNext() != null) {
+        while (curr.getNext() != null) {
             System.out.print("[" + curr.getRow() + ", " + curr.getCol() + "] -> ");
             curr = curr.getNext();
         }
         System.out.println("[" + curr.getRow() + ", " + curr.getCol() + "]");
     }
 
+    public void printGame() {
+        SnakeNode currNode = head;
+        char[][] game = new char[bottom - top][right - left];
+
+        for (int row = 0; row < game.length; row++) {
+            for (int col = 0; col < game[0].length; col++) {
+                if (col == left || col == (right - 1)) {
+                    game[row][col] = '|';
+                } else if (row == top || row == (bottom - 1)) {
+                    game[row][col] = '-';
+                } else {
+                    game[row][col] = ' ';
+                }
+            }
+        }
+
+        while (currNode != null) {
+            game[currNode.getRow()][currNode.getCol()] = '*';
+            currNode = currNode.getNext();
+        }
+
+        for (int row = 0; row < game.length; row++) {
+            for (int col = 0; col < game[0].length; col++) {
+                System.out.print(game[row][col] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
     public static void main(String[] args) {
-        SnakeLinkedList snakeGame = new SnakeLinkedList(0, 20, 0, 20, null);
+        SnakeLinkedList snakeGame = new SnakeLinkedList(0, 40, 0, 20, null);
         SnakeNode node = new SnakeNode((snakeGame.getBottom() - snakeGame.getTop()) / 2, (snakeGame.getRight() - snakeGame.getLeft()) / 2);
         SnakeNode node2 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, (snakeGame.getRight() - snakeGame.getLeft()) / 2);
+        SnakeNode node3 = new SnakeNode(((snakeGame.getBottom() - snakeGame.getTop()) / 2) - 1, ((snakeGame.getRight() - snakeGame.getLeft()) / 2) - 1);
         snakeGame.setHead(node);
         snakeGame.addAtEnd(node2);
+        snakeGame.addAtEnd(node3);
         snakeGame.printList();
+        snakeGame.printGame();
     }
 }
