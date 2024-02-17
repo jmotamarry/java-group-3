@@ -128,9 +128,24 @@ public class SnakeLinkedList {
         snakeGame.addAtEnd(node3);
         
         while (!(input.equals("-1"))) {
-            System.out.println("Input a direction (left, right, up, or down): ");
+            System.out.println("Input a direction (wasd): ");
             input = sc.nextLine();
-            snakeGame.move(input);
+
+            switch (input) {
+                case("w"):
+                    snakeGame.move("up");
+                    break;
+                case("a"):
+                    snakeGame.move("left");
+                    break;
+                case("s"):
+                    snakeGame.move("down");
+                    break;
+                case("d"):
+                    snakeGame.move("right");
+                    break;
+            }
+
             snakeGame.printGame();
         }
     }
