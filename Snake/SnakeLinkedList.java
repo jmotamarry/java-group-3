@@ -10,18 +10,24 @@ public class SnakeLinkedList {
     private int c = 5; //column for the original position of apple
     private static int score;
     private static char[][] game;
-    private static SnakeLinkedList snakeGame = new SnakeLinkedList(0, 40, 0, 20, null);
+    private static SnakeLinkedList snakeGame = new SnakeLinkedList(0, 40, 0, 20, null,null);
 
     private SnakeNode head;
+    private SnakeNode tail;
 
-    public SnakeLinkedList(int left, int right, int top, int bottom, SnakeNode head) {
+    //constructor 
+
+    public SnakeLinkedList(int left, int right, int top, int bottom, SnakeNode head, SnakeNode tail) {
         this.left = left;
         this.right = right;
         this.top = top;
         this.bottom = bottom;
         this.head = head;
+        this.tail = tail;
         this.game = new char[bottom - top][right - left];
     }
+
+    //Getters + setters 
 
     public int getLeft() {
         return left;
@@ -43,9 +49,23 @@ public class SnakeLinkedList {
         return head;
     }
 
-    public void setHead(SnakeNode s) {
+    public void setHead(SnakeNode s) //edited it a bittttt 
+    {
+        if(head == null)
+        {
+            head = s;
+            tail = s;
+        }
         head = s;
     }
+
+    public void setTail(SnakeNode s) //added it
+     {
+        tail = s;
+    }
+
+
+    // helper methods 
 
     public void addAtEnd(SnakeNode s) {
         SnakeNode curr = head;
@@ -54,6 +74,7 @@ public class SnakeLinkedList {
         }
         curr.setNext(s);
         s.setPrev(curr);
+        snakeGame.setTail(s); //added that
     }
 
     public void printList() {
@@ -65,7 +86,8 @@ public class SnakeLinkedList {
         System.out.println("[" + curr.getRow() + ", " + curr.getCol() + "]");
     }
 
-    public void printGame() {
+    public void printGame() //made some changes here 
+    {
         SnakeNode currNode = head;
         
         for (int row = 0; row < game.length; row++) {
@@ -80,7 +102,7 @@ public class SnakeLinkedList {
             }
         }
 
-        if(snakeGame.spawnApple(r,c))
+        if(snakeGame.spawnApple(r,c)) //added that
         {
              r = (int)(Math.random()*18+1);
              c = (int)(Math.random()*38+1);
@@ -127,13 +149,14 @@ public class SnakeLinkedList {
         head = temp;
     }
 
-    public boolean spawnApple(int row, int col)
+    public boolean spawnApple(int row, int col) //also grows the snake.......but it has an error i cant figure out
     {
         game[row][col] = 'o';
 
         if(head.getRow() == row && head.getCol() == col)
         {
-            SnakeNode newNode = new SnakeNode(row,col);
+            System.out.println(tail.getRow() + " " + tail.getCol());
+            SnakeNode newNode = new SnakeNode(tail.getRow(),tail.getCol());
             snakeGame.addAtEnd(newNode);
             game[row][col] = ' ';
             return true;
@@ -142,7 +165,7 @@ public class SnakeLinkedList {
         return false;
     }
 
-    public boolean terminateGame() // currently only works if snake hits the boundaryyy
+    public boolean terminateGame() // works more or less! (atleast as far as ive tried)
     {
         if(head.getRow() == 0 || head.getRow() == 19 || head.getCol() == 0 || head.getCol()==39)
         {
@@ -153,7 +176,7 @@ public class SnakeLinkedList {
 
         SnakeNode currentNode = head.getNext();
 
-            while(currentNode.getNext()!= null)
+            while(currentNode!= null)
             {
                 if(head.getRow() == currentNode.getRow() && head.getCol() == currentNode.getCol())
                 {
@@ -164,15 +187,12 @@ public class SnakeLinkedList {
                 currentNode = currentNode.getNext();
 
             }
-
-           
-        
-
         return false;
     }
 
     
 
+    //main method
     public static void main(String[] args) 
     {
         Scanner sc = new Scanner(System.in);
@@ -209,7 +229,7 @@ public class SnakeLinkedList {
             }
 
             snakeGame.printGame();
-            System.out.println("\nCurrent Score: " + score);
+            System.out.println("\nCurrent Score: " + score); //added that
             endGame = snakeGame.terminateGame();
         }
     }
