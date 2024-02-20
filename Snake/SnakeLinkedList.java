@@ -6,8 +6,8 @@ public class SnakeLinkedList {
     private int right;
     private int top;
     private int bottom;
-    private int r = 4; //Row for the original posotion of apple
-    private int c = 5; //column for the original position of apple
+    private int r = 4; // Row for the original posotion of apple
+    private int c = 5; // column for the original position of apple
     private static int score;
     private static char[][] game;
     private static SnakeLinkedList snakeGame = new SnakeLinkedList(0, 40, 0, 20, null,null);
@@ -74,7 +74,7 @@ public class SnakeLinkedList {
         }
         curr.setNext(s);
         s.setPrev(curr);
-        snakeGame.setTail(s); //added that
+        snakeGame.setTail(s); // added that
     }
 
     public void printList() {
@@ -86,7 +86,7 @@ public class SnakeLinkedList {
         System.out.println("[" + curr.getRow() + ", " + curr.getCol() + "]");
     }
 
-    public void printGame() //made some changes here 
+    public void printGame() // made some changes here 
     {
         SnakeNode currNode = head;
         
@@ -102,14 +102,16 @@ public class SnakeLinkedList {
             }
         }
 
-        if(snakeGame.spawnApple(r,c)) //added that
-        {
-             r = (int)(Math.random()*18+1);
-             c = (int)(Math.random()*38+1);
-             score++;
-             snakeGame.spawnApple(r,c);
-        }
+        game[r][c] = 'o';
 
+/**
+        if (snakeGame.spawnApple(r, c)) {
+             r = (int)(Math.random() * 18 + 1);
+             c = (int)(Math.random() * 38 + 1);
+             score++;
+             snakeGame.spawnApple(r, c);
+        }
+**/
         while (currNode != null) {
             game[currNode.getRow()][currNode.getCol()] = '*';
             currNode = currNode.getNext();
@@ -130,8 +132,13 @@ public class SnakeLinkedList {
             currNode = currNode.getNext();
         }
 
-        currNode.getPrev().setNext(null);
-
+        if (snakeGame.getHead().getRow() == r && snakeGame.getHead().getCol() == c) {
+            spawnApple();
+            score++;
+        } else {
+            currNode.getPrev().setNext(null);
+        }
+        
         SnakeNode temp = null;
 
         if (direction.toLowerCase().equals("right")) {
@@ -149,25 +156,35 @@ public class SnakeLinkedList {
         head = temp;
     }
 
-    public boolean spawnApple(int row, int col) //also grows the snake.......but it has an error i cant figure out
+    public void spawnApple() // also grows the snake.......but it has an error i cant figure out
     {
-        game[row][col] = 'o';
+        boolean valid = false;
 
-        if(head.getRow() == row && head.getCol() == col)
-        {
-            System.out.println(tail.getRow() + " " + tail.getCol());
-            SnakeNode newNode = new SnakeNode(tail.getRow(),tail.getCol());
-            snakeGame.addAtEnd(newNode);
-            game[row][col] = ' ';
-            return true;
-        
+        while (valid == false) {
+            r = (int)(Math.random() * 18 + 1);
+            c = (int)(Math.random() * 38 + 1);
+
+            if (validApple()) {
+                valid = true;
+            }
+
         }
-        return false;
+    }
+
+    public boolean validApple() {
+        SnakeNode curr = head;
+        while (curr != null) {
+            if (curr.getCol() == c && curr.getRow() == r) {
+                return false;
+            }
+            curr = curr.getNext();
+        }
+        return true;
     }
 
     public boolean terminateGame() // works more or less! (atleast as far as ive tried)
     {
-        if(head.getRow() == 0 || head.getRow() == 19 || head.getCol() == 0 || head.getCol()==39)
+        if(head.getRow() == 0 || head.getRow() == 19 || head.getCol() == 0 || head.getCol() == 39)
         {
             System.out.println("You hit the boundary, game over :(");
             System.out.println("Your final score is: " + score + "! Good job :)");
@@ -210,6 +227,8 @@ public class SnakeLinkedList {
         boolean endGame = false;
          
         while (!(input.equals("-1")) && !endGame) {
+            snakeGame.printGame();
+
             System.out.println("Input a direction (wasd): ");
             input = sc.nextLine();
 
@@ -228,7 +247,6 @@ public class SnakeLinkedList {
                     break;
             }
 
-            snakeGame.printGame();
             System.out.println("\nCurrent Score: " + score); //added that
             endGame = snakeGame.terminateGame();
         }
