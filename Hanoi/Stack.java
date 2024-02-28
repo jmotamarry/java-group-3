@@ -1,6 +1,5 @@
 package Hanoi;
 
-
 import java.util.Scanner;
 
 public class Stack {
@@ -63,7 +62,7 @@ public class Stack {
        return length;
    }
    
-   public static void drawDisc(Stack to)
+   public static void drawDisc(Stack to, int size)
    {
        int poleNumTo = 0;
        if(to.name.equals("left"))
@@ -79,15 +78,15 @@ public class Stack {
        }
 
 
-       int c = poleNumTo - to.peek()/2;
-       while(c < poleNumTo + to.peek()/2+1)
+       int c = poleNumTo - size/2;
+       while(c < poleNumTo + size/2+1)
        {
            game[game.length-1-to.length()][c] = 'o';
            c++;
        }
    }
   
-   public static void removeDisc(Stack from)
+   public static void removeDisc(Stack from, int size)
    {
        int poleNumFrom = 0;
        if(from.name.equals("left"))
@@ -102,9 +101,8 @@ public class Stack {
            poleNumFrom = 30;
        }
 
-
-       int c = poleNumFrom - from.peek()/2;
-       while(c < poleNumFrom + from.peek()/2+1)
+       int c = poleNumFrom - size/2;
+       while(c < poleNumFrom + size/2+1)
        {
            game[game.length-1-from.length()-1][c] = ' ';
            if(c == poleNumFrom)
@@ -118,10 +116,13 @@ public class Stack {
    }
   
    public boolean move(Stack to) {
+
+        int discSize = 0;
       
        if (to.length() == 0) {
            to.push(pop());
-            System.out.println("moved!");
+           discSize = to.peek();
+           System.out.println("moved!");
        }
        else if (to.peek() < peek()) {
            System.out.println("You can not move to this pole.");
@@ -129,11 +130,11 @@ public class Stack {
        }
        else{
            to.push(pop());
+           discSize = to.peek();
        }
 
-
-       drawDisc(to);
-       removeDisc(this);
+       drawDisc(to, discSize);
+       removeDisc(this, discSize);
        return true;
    }
 
@@ -204,11 +205,11 @@ public class Stack {
 
 
        leftPole.push(7);
-       drawDisc(leftPole);
+       drawDisc(leftPole,7);
        leftPole.push(5);
-       drawDisc(leftPole);
+       drawDisc(leftPole,5);
        leftPole.push(3);
-       drawDisc(leftPole);
+       drawDisc(leftPole,3);
 
 
        printGame();
@@ -216,7 +217,7 @@ public class Stack {
 
        String input = "";
        while(!rightPole.terminate() && !input.equals("end"))
-       {
+        {
            Stack from = rightPole;
            Stack to = rightPole;
 
@@ -260,21 +261,10 @@ public class Stack {
        }
 
 
-       System.out.println("did not enter the loop!");
+       System.out.println("Yay, congrats you won!!");
        scan.close();
    }
 
-
-
-
-   //solution:
-   /*  leftPole.move(rightPole);
-       leftPole.move(middlePole);
-       rightPole.move(middlePole);
-       leftPole.move(rightPole);
-       middlePole.move(leftPole);
-       middlePole.move(rightPole);
-       leftPole.move(rightPole);*/
 }
 
 
